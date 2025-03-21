@@ -15,7 +15,7 @@ app.use(cors()); // Autorise les requêtes depuis React Native
 
 app.use("/api/users", userRoutes);
 app.use("/api/associations", associationRoutes);
-app.use("api/filter", associationRoutes);
+app.use("/api", filtrageRoutes);
 
 
 const PORT = process.env.PORT || 3000;
