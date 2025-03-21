@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db"); // Assure-toi que c'est bien ton fichier de connexion DB
 
-router.post("/filter-associations", async (req, res) => {
+router.post("/", async (req, res) => {
     const { tag1, tag2, tag3 } = req.body;
 
     try {
