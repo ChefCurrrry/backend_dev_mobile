@@ -4,7 +4,7 @@ import pool from "../db.js";
 const router = express.Router();
 
 // Route pour récupérer toutes les associations
-router.get("/", async (req, res) => {
+router.get("/getAsso", async (req, res) => {
     try {
         const [rows] = await pool.execute("SELECT * FROM ASSOCIATION");
         res.json(rows); // Retourne la liste des associations en JSON
