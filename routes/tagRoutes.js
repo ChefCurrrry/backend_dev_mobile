@@ -6,7 +6,7 @@ const router = express.Router();
 // Récupérer tous les tags1
 router.get("/tags1", async (req, res) => {
     try {
-        const [rows] = await db.query("SELECT * FROM TAG1");
+        const [rows] = await pool.query("SELECT * FROM TAG1");
         res.json(rows);
     } catch (error) {
         console.error("Erreur tags1 :", error);
@@ -17,7 +17,7 @@ router.get("/tags1", async (req, res) => {
 // Récupérer tous les tags2
 router.get("/tags2", async (req, res) => {
     try {
-        const [rows] = await db.query("SELECT * FROM TAG2");
+        const [rows] = await pool.query("SELECT * FROM TAG2");
         res.json(rows);
     } catch (error) {
         console.error("Erreur tags2 :", error);
@@ -28,7 +28,7 @@ router.get("/tags2", async (req, res) => {
 // Récupérer tous les tags3
 router.get("/tags3", async (req, res) => {
     try {
-        const [rows] = await db.query("SELECT * FROM TAG3");
+        const [rows] = await pool.query("SELECT * FROM TAG3");
         res.json(rows);
     } catch (error) {
         console.error("Erreur tags3 :", error);
