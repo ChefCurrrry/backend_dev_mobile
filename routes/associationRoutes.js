@@ -34,6 +34,8 @@ router.post("/filtrage-associations", async (req, res) => {
             query += " AND IdTag3 = ?";
             params.push(tag3);
         }
+        console.log("🧪 SQL DEBUG:", query);
+        console.log("🧪 Params:", params);
 
         const [rows] = await pool.query(query, params);
         res.json(rows);
