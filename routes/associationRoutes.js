@@ -19,7 +19,7 @@ router.post("/filtrage-associations", async (req, res) => {
     const { tag1, tag2, tag3 } = req.body;
 
     try {
-        let query = "SELECT * FROM ASSOCIATIONS WHERE 1=1";
+        let query = "SELECT * FROM ASSOCIATION WHERE 1=1";
         const params = [];
 
         if (tag1) {
