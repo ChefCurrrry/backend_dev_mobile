@@ -23,15 +23,15 @@ router.post("/filtrage-associations", async (req, res) => {
         const params = [];
 
         if (tag1) {
-            query += " AND IdTag1 = ?";
+            query += " AND TAG1 = ?";
             params.push(tag1);
         }
         if (tag2) {
-            query += " AND IdTag2 = ?";
+            query += " AND TAG2 = ?";
             params.push(tag2);
         }
         if (tag3) {
-            query += " AND IdTag3 = ?";
+            query += " AND TAG3 = ?";
             params.push(tag3);
         }
         console.log("🧪 SQL DEBUG:", query);
