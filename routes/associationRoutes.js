@@ -14,6 +14,8 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Filtrer les associations selon les tags sélectionnés
+
 
 
 export default router;
