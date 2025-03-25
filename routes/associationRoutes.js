@@ -51,7 +51,7 @@ router.get('/getAssoById', async (req, res) => {
     if (!id) return res.status(400).json({ error: "ID manquant" });
 
     try {
-        const result = await pool.query("SELECT * FROM associations WHERE IdAsso = ?", [id]);
+        const result = await pool.query("SELECT * FROM ASSOCIATION WHERE IdAsso = ?", [id]);
         if (result[0].length === 0) {
             return res.status(404).json({ error: "Association non trouvée" });
         }
