@@ -46,29 +46,20 @@ router.post("/filtrage-associations", async (req, res) => {
 });
 
 
-// 🟢 Route pour récupérer une association par son ID
-router.get("/:id", async (req, res) => {
-    const { id } = req.params;
-
-    if (!id || isNaN(id)) {
-        return res.status(400).json({ error: "ID invalide" });
-    }
+router.get('/getAssoById', async (req, res) => {
+    const { id } = req.query;
+    if (!id) return res.status(400).json({ error: "ID manquant" });
 
     try {
-        const [rows] = await pool.query("SELECT * FROM associations WHERE IdAsso = ?", [id]);
-
-        if (!rows.length) {
+        const result = await pool.query("SELECT * FROM associations WHERE IdAsso = ?", [id]);
+        if (result[0].length === 0) {
             return res.status(404).json({ error: "Association non trouvée" });
         }
-
-        res.status(200).json(rows[0]);
+        res.json(result[0][0]);
     } catch (err) {
-        console.error("❌ Erreur SQL :", err);
-        res.status(500).json({ error: "Erreur serveur" });
+        res.status(500).json({ error: "Erreur récupération association" });
     }
 });
-
-module.exports = router;
 
 
 
