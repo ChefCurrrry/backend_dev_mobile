@@ -45,7 +45,24 @@ router.post("/filtrage-associations", async (req, res) => {
     }
 });
 
+router.get("/:id", async (req, res) => {
+    const id = req.params.id;
 
+    try {
+        const [rows] = await db.query("SELECT * FROM associations WHERE IdAsso = ?", [id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: "Association non trouvée" });
+        }
+
+        res.json(rows[0]);
+    } catch (error) {
+        console.error("Erreur récupération association :", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+});
+
+module.exports = router;
 
 
 export default router;
