@@ -37,34 +37,36 @@ router.post("/login", async (req, res) => {
     console.log("🔍 Tentative de connexion :", email, password);
 
     try {
-        // Vérifier si l'utilisateur existe
         const [rows] = await pool.execute("SELECT * FROM UTILISATEUR WHERE Email = ?", [email]);
-        console.log("📝 Résultat SQL :", rows);
 
         if (rows.length === 0) {
-            console.log("❌ Aucun utilisateur trouvé !");
             return res.status(400).json({ success: false, message: "Email ou mot de passe incorrect" });
         }
 
-        // Vérifier si la colonne "Password" est bien récupérée
         const hashedPassword = rows[0].Password;
-        console.log("🔒 Mot de passe récupéré :", hashedPassword);
 
         if (!hashedPassword) {
-            console.log("❌ ERREUR : Aucune donnée trouvée pour password !");
             return res.status(500).json({ success: false, message: "Erreur serveur (password non trouvé)" });
         }
 
-        // Vérification du mot de passe
         const isMatch = await bcrypt.compare(password, hashedPassword);
-        console.log("🔑 Vérification bcrypt :", isMatch);
 
         if (!isMatch) {
-            console.log("❌ Mot de passe incorrect !");
             return res.status(400).json({ success: false, message: "Email ou mot de passe incorrect" });
         }
 
-        res.json({ success: true, message: "Connexion réussie !" });
+        // ✅ On renvoie les infos du user
+        res.json({
+            success: true,
+            message: "Connexion réussie !",
+            user: {
+                id: rows[0].IdUser,
+                nom: rows[0].Nom,
+                prenom: rows[0].Prenom,
+                email: rows[0].Email,
+                role: rows[0].Role,
+            },
+        });
 
     } catch (error) {
         console.error("❌ Erreur lors de la connexion :", error);
