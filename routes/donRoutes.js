@@ -4,7 +4,7 @@ import pool from "../db.js";
 const router = express.Router();
 
 
-router.get("/dons/somme", async (req, res) => {
+router.get("/somme", async (req, res) => {
     const idAsso = req.query.id;
 
     try {
