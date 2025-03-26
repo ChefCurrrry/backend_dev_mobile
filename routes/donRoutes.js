@@ -4,12 +4,12 @@ import pool from "../db.js";
 const router = express.Router();
 
 
-router.get("/somme", async (req, res) => {
+router.get("/dons/somme", async (req, res) => {
     const idAsso = req.query.id;
 
     try {
         const [rows] = await pool.execute(
-            "SELECT SUM(Montant) AS total FROM DONS WHERE IdAsso = ?",
+            "SELECT SUM(Montant) AS total FROM DON WHERE IdAsso = ?",
             [idAsso]
         );
 

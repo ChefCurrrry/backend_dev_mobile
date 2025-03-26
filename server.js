@@ -17,7 +17,7 @@ app.use(cors()); // Autorise les requêtes depuis React Native
 app.use("/api/users", userRoutes);
 app.use("/api/associations", associationRoutes);
 app.use("/api/tags", tagRoutes);
-app.use("api/dons", donRoutes)
+app.use("/api/dons", donRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Serveur backend démarré sur http://localhost:${PORT}`));
