@@ -9,7 +9,7 @@ router.get("/somme", async (req, res) => {
 
     try {
         const [rows] = await pool.execute(
-            "SELECT SUM(Montant) AS total FROM DON WHERE IdAsso = ?",
+            "SELECT SUM(MontantDon) AS total FROM DONS WHERE IdAsso = ?",
             [idAsso]
         );
 
