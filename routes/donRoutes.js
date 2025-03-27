@@ -40,5 +40,34 @@ router.post("/registerDon", async (req, res) => {
     }
 });
 
+router.post("/registerRecurrentDon", async (req, res) => {
+    const { idUtilisateur, idAssociation, montant, date } = req.body;
+
+    if (!idUtilisateur || !idAssociation || !montant || !date) {
+        return res.status(400).json({ success: false, message: "Champs manquants" });
+    }
+
+    try {
+        const insertRecurrentQuery = `
+            INSERT INTO DONS_RECURRENTS (IdUser, IDAsso, Montant, DateDebut)
+            VALUES (?, ?, ?, ?)
+        `;
+        await pool.query(insertRecurrentQuery, [idUtilisateur, idAssociation, montant, date]);
+
+        const insertOneTimeQuery = `
+            INSERT INTO DONS (IdUser, IDAsso, MontantDon, DateDon)
+            VALUES (?, ?, ?, ?)
+        `;
+        await pool.query(insertOneTimeQuery, [idUtilisateur, idAssociation, montant, date]);
+
+        res.status(201).json({ success: true, message: "Don récurrent et premier don enregistrés" });
+    } catch (error) {
+        console.error("Erreur lors de l'enregistrement du don récurrent :", error);
+        res.status(500).json({ success: false, message: "Erreur serveur" });
+    }
+});
+
+
+
 
 export default router;
