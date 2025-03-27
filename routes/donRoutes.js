@@ -67,6 +67,43 @@ router.post("/registerRecurrentDon", async (req, res) => {
     }
 });
 
+router.get("/donsRecurrents", async (req, res) => {
+    const { idUser } = req.query;
+
+    try {
+        const [dons] = await pool.query(`
+            SELECT DR.Id, DR.Montant, A.NomAsso
+            FROM DONS_RECURRENTS DR
+            JOIN ASSOCIATION A ON A.IdAsso = DR.IDAsso
+            WHERE DR.IdUser = ?
+        `, [idUser]);
+
+        const [totalRow] = await pool.query(`
+            SELECT SUM(MontantDon) AS total
+            FROM DONS
+            WHERE IdUser = ?
+        `, [idUser]);
+
+        res.json({ dons, total: totalRow[0]?.total || 0 });
+    } catch (error) {
+        console.error("❌ Erreur dons recurrents :", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+});
+
+router.post("/updateRecurrentDon", async (req, res) => {
+    const { donId, montant } = req.body;
+    try {
+        await pool.query(`UPDATE DONS_RECURRENTS SET Montant = ? WHERE Id = ?`, [montant, donId]);
+        res.json({ success: true });
+    } catch (error) {
+        console.error("❌ Erreur mise à jour don :", error);
+        res.status(500).json({ success: false, message: "Erreur serveur" });
+    }
+});
+
+
+
 
 
 
