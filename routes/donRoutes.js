@@ -72,9 +72,9 @@ router.get("/donsRecurrents", async (req, res) => {
 
     try {
         const [dons] = await pool.query(`
-            SELECT A.NomAsso, DR.MontantDon
+            SELECT DR.Id, DR.MontantDon AS Montant, A.NomAsso
             FROM DONS_RECURRENTS DR
-            JOIN ASSOCIATION A ON A.IdAsso = DR.IDAsso
+                     JOIN ASSOCIATION A ON A.IdAsso = DR.IDAsso
             WHERE DR.IdUser = ?
         `, [idUser]);
 
@@ -90,6 +90,7 @@ router.get("/donsRecurrents", async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 });
+
 
 router.post("/updateRecurrentDon", async (req, res) => {
     const { donId, montant } = req.body;
