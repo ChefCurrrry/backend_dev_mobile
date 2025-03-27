@@ -23,7 +23,8 @@ router.get("/somme", async (req, res) => {
 router.post("/registerDon", async (req, res) => {
     const { idUtilisateur, idAssociation, montant, date } = req.body;
 
-    // Vérification basique
+    console.log("Reçu du front :", req.body); // 👈 AJOUTE ÇA ICI
+
     if (!idUtilisateur || !idAssociation || !montant) {
         return res.status(400).json({ success: false, message: "Champs manquants" });
     }
@@ -38,5 +39,6 @@ router.post("/registerDon", async (req, res) => {
         res.status(500).json({ success: false, message: "Erreur serveur" });
     }
 });
+
 
 export default router;
