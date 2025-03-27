@@ -49,7 +49,7 @@ router.post("/registerRecurrentDon", async (req, res) => {
 
     try {
         const insertRecurrentQuery = `
-            INSERT INTO DONS_RECURRENTS (IdUser, IDAsso, Montant, DateDebut)
+            INSERT INTO DONS_RECURRENTS (IdUser, IDAsso, MontantDon, DateDebut)
             VALUES (?, ?, ?, ?)
         `;
         await pool.query(insertRecurrentQuery, [idUtilisateur, idAssociation, montant, date]);
