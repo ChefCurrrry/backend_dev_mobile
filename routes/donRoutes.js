@@ -72,7 +72,7 @@ router.get("/donsRecurrents", async (req, res) => {
 
     try {
         const [dons] = await pool.query(`
-            SELECT DR.Id, DR.MontantDon AS Montant, A.NomAsso
+            SELECT DR.MontantDon AS Montant, A.NomAsso
             FROM DONS_RECURRENTS DR
                      JOIN ASSOCIATION A ON A.IdAsso = DR.IDAsso
             WHERE DR.IdUser = ?
@@ -93,15 +93,33 @@ router.get("/donsRecurrents", async (req, res) => {
 
 
 router.post("/updateRecurrentDon", async (req, res) => {
-    const { donId, montant } = req.body;
+    const { idUtilisateur, idAssociation, montant } = req.body;
     try {
-        await pool.query(`UPDATE DONS_RECURRENTS SET Montant = ? WHERE Id = ?`, [montant, donId]);
+        await pool.query(
+            `UPDATE DONS_RECURRENTS SET MontantDon = ? WHERE IdUser = ? AND IDAsso = ?`,
+            [montant, idUtilisateur, idAssociation]
+        );
         res.json({ success: true });
     } catch (error) {
         console.error("❌ Erreur mise à jour don :", error);
         res.status(500).json({ success: false, message: "Erreur serveur" });
     }
 });
+
+router.delete("/deleteRecurrentDon", async (req, res) => {
+    const { idUtilisateur, idAssociation } = req.body;
+    try {
+        await pool.query(
+            `DELETE FROM DONS_RECURRENTS WHERE IdUser = ? AND IDAsso = ?`,
+            [idUtilisateur, idAssociation]
+        );
+        res.json({ success: true });
+    } catch (error) {
+        console.error("❌ Erreur suppression don :", error);
+        res.status(500).json({ success: false, message: "Erreur serveur" });
+    }
+});
+
 
 
 
