@@ -72,7 +72,7 @@ router.get("/donsRecurrents", async (req, res) => {
 
     try {
         const [dons] = await pool.query(`
-            SELECT DR.Id, DR.Montant, A.NomAsso
+            SELECT A.NomAsso, DR.MontantDon
             FROM DONS_RECURRENTS DR
             JOIN ASSOCIATION A ON A.IdAsso = DR.IDAsso
             WHERE DR.IdUser = ?
