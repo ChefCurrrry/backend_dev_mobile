@@ -25,7 +25,7 @@ router.post("/registerDon", async (req, res) => {
 
     console.log("Reçu du front :", req.body); // 👈 AJOUTE ÇA ICI
 
-    if (!idUtilisateur || !idAssociation || !montant) {
+    if (!idAssociation || !montant) {
         return res.status(400).json({ success: false, message: "Champs manquants" });
     }
 
