@@ -9,6 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 // Exemple de route pour créer un paiement
 router.post('/create-payment-intent', async (req, res) => {
     const { amount } = req.body;
+    console.log("✅ Stripe Key:", process.env.STRIPE_SECRET_KEY?.slice(0, 10) + "...");
 
     try {
         const paymentIntent = await stripe.paymentIntents.create({
@@ -29,3 +30,4 @@ router.post('/create-payment-intent', async (req, res) => {
 });
 
 export default router;
+
