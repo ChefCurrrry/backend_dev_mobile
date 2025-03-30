@@ -94,7 +94,7 @@ router.post("/reset-password", async (req, res) => {
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
         // Met à jour le mot de passe
-        await pool.query("UPDATE UTILISATEUR SET MotDePasse = ? WHERE Email = ?", [hashedPassword, email]);
+        await pool.query("UPDATE UTILISATEUR SET Password = ? WHERE Email = ?", [hashedPassword, email]);
 
         return res.json({ success: true, message: "Mot de passe réinitialisé avec succès." });
     } catch (err) {
