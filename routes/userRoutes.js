@@ -73,4 +73,34 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ success: false, message: "Erreur serveur" });
     }
 });
+
+
+router.post("/reset-password", async (req, res) => {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+        return res.status(400).json({ success: false, message: "Email et mot de passe requis." });
+    }
+
+    try {
+        // Vérifie si l'utilisateur existe
+        const [users] = await pool.query("SELECT * FROM USERS WHERE Email = ?", [email]);
+
+        if (users.length === 0) {
+            return res.status(404).json({ success: false, message: "Aucun utilisateur trouvé avec cet email." });
+        }
+
+        // Hash le nouveau mot de passe
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Met à jour le mot de passe
+        await pool.query("UPDATE USERS SET MotDePasse = ? WHERE Email = ?", [hashedPassword, email]);
+
+        return res.json({ success: true, message: "Mot de passe réinitialisé avec succès." });
+    } catch (err) {
+        console.error("Erreur reset password:", err);
+        return res.status(500).json({ success: false, message: "Erreur serveur lors de la réinitialisation." });
+    }
+});
+
 export default router;
