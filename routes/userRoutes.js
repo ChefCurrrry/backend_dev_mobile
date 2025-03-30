@@ -103,4 +103,38 @@ router.post("/reset-password", async (req, res) => {
     }
 });
 
+
+router.post("/updateRole", async (req, res) => {
+    const { id, role } = req.body;
+
+    if (!id || !role) {
+        return res.status(400).json({ message: "ID et rôle requis." });
+    }
+
+    try {
+        await db.query("UPDATE USERS SET role = ? WHERE id = ?", [role, id]);
+        res.json({ success: true, message: "Rôle mis à jour." });
+    } catch (err) {
+        console.error("❌ Erreur updateRole :", err);
+        res.status(500).json({ success: false, message: "Erreur serveur." });
+    }
+});
+
+router.delete("/delete", async (req, res) => {
+    const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ message: "ID utilisateur requis." });
+    }
+
+    try {
+        await db.query("DELETE FROM USERS WHERE id = ?", [id]);
+        res.json({ success: true, message: "Utilisateur supprimé." });
+    } catch (err) {
+        console.error("❌ Erreur deleteUser :", err);
+        res.status(500).json({ success: false, message: "Erreur serveur." });
+    }
+});
+
+
 export default router;
