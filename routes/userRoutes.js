@@ -138,7 +138,7 @@ router.delete("/delete", async (req, res) => {
 
 router.get("/getUser", async (req, res) => {
     try {
-        const [users] = await pool.query("SELECT IdUser, Nom, Prenom, Email, Role FROM UTILISATEUR");
+        const [users] = await pool.query("SELECT IdUser AS id, Nom AS nom, Prenom AS prenom, Email AS email, Role AS role FROM UTILISATEUR");
         res.json(users);
     } catch (err) {
         console.error("❌ Erreur récupération utilisateurs :", err);
