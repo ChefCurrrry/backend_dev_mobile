@@ -84,7 +84,7 @@ router.post("/reset-password", async (req, res) => {
 
     try {
         // Vérifie si l'utilisateur existe
-        const [users] = await pool.query("SELECT * FROM USERS WHERE Email = ?", [email]);
+        const [users] = await pool.query("SELECT * FROM UTILISATEUR WHERE Email = ?", [email]);
 
         if (users.length === 0) {
             return res.status(404).json({ success: false, message: "Aucun utilisateur trouvé avec cet email." });
@@ -94,7 +94,7 @@ router.post("/reset-password", async (req, res) => {
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
         // Met à jour le mot de passe
-        await pool.query("UPDATE USERS SET MotDePasse = ? WHERE Email = ?", [hashedPassword, email]);
+        await pool.query("UPDATE UTILISATEUR SET MotDePasse = ? WHERE Email = ?", [hashedPassword, email]);
 
         return res.json({ success: true, message: "Mot de passe réinitialisé avec succès." });
     } catch (err) {
