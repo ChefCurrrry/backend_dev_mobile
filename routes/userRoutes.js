@@ -112,7 +112,7 @@ router.post("/updateRole", async (req, res) => {
     }
 
     try {
-        await db.query("UPDATE UTILISATEUR SET role = ? WHERE id = ?", [role, id]);
+        await pool.query("UPDATE UTILISATEUR SET role = ? WHERE id = ?", [role, id]);
         res.json({ success: true, message: "Rôle mis à jour." });
     } catch (err) {
         console.error("❌ Erreur updateRole :", err);
@@ -128,7 +128,7 @@ router.delete("/delete", async (req, res) => {
     }
 
     try {
-        await db.query("DELETE FROM UTILISATEUR WHERE id = ?", [id]);
+        await pool.query("DELETE FROM UTILISATEUR WHERE id = ?", [id]);
         res.json({ success: true, message: "Utilisateur supprimé." });
     } catch (err) {
         console.error("❌ Erreur deleteUser :", err);
@@ -136,5 +136,14 @@ router.delete("/delete", async (req, res) => {
     }
 });
 
+router.get("/getUser", async (req, res) => {
+    try {
+        const [users] = await pool.query("SELECT id, nom, prenom, email, role FROM UTILISATEUR");
+        res.json(users);
+    } catch (err) {
+        console.error("❌ Erreur récupération utilisateurs :", err);
+        res.status(500).json({ success: false, message: "Erreur serveur." });
+    }
+});
 
 export default router;
