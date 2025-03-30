@@ -135,6 +135,23 @@ router.delete("/delete", async (req, res) => {
         res.status(500).json({ success: false, message: "Erreur serveur." });
     }
 });
+router.get("/getUser", async (req, res) => {
+    const currentUserId = req.query.id; // 🔹 ID de l'utilisateur connecté passé dans la requête
 
+    if (!currentUserId) {
+        return res.status(400).json({ success: false, message: "ID utilisateur requis" });
+    }
+
+    try {
+        const [users] = await pool.query(
+            "SELECT IdUser AS id, Nom AS nom, Prenom AS prenom, Email AS email, Role AS role FROM UTILISATEUR WHERE IdUser != ?",
+            [currentUserId]
+        );
+        res.json(users);
+    } catch (err) {
+        console.error("❌ Erreur récupération utilisateurs :", err);
+        res.status(500).json({ success: false, message: "Erreur serveur." });
+    }
+});
 
 export default router;
