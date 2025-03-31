@@ -133,8 +133,8 @@ router.get("/top-associations", async (req, res) => {
         const [rows] = await pool.query(`
             SELECT a.NomAsso, SUM(d.Montant) AS totalDons
             FROM DONS d
-            INNER JOIN ASSOCIATION a ON d.IdAssociation = a.IdAsso
-            GROUP BY d.IdAssociation
+            INNER JOIN ASSOCIATION a ON d.IDAsso = a.IdAsso
+            GROUP BY d.IDAsso
             ORDER BY totalDons DESC
             LIMIT 5
         `);
