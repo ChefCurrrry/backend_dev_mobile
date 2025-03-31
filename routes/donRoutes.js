@@ -131,7 +131,7 @@ router.delete("/deleteRecurrentDon", async (req, res) => {
 router.get("/top-associations", async (req, res) => {
     try {
         const [rows] = await pool.query(`
-            SELECT a.NomAsso, SUM(d.Montant) AS totalDons
+            SELECT a.NomAsso, SUM(d.MontantDon) AS totalDons
             FROM DONS d
             INNER JOIN ASSOCIATION a ON d.IDAsso = a.IdAsso
             GROUP BY d.IDAsso
