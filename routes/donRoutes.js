@@ -125,6 +125,33 @@ router.delete("/deleteRecurrentDon", async (req, res) => {
     }
 });
 
+import express from "express";
+import pool from "../db.js";
+
+const router = express.Router();
+
+// 🔝 Route pour récupérer les 5 associations ayant reçu le plus de dons
+router.get("/top-associations", async (req, res) => {
+    try {
+        const [rows] = await pool.query(`
+            SELECT a.NomAsso, SUM(d.Montant) AS totalDons
+            FROM DONS d
+            INNER JOIN ASSOCIATION a ON d.IdAssociation = a.IdAsso
+            GROUP BY d.IdAssociation
+            ORDER BY totalDons DESC
+            LIMIT 5
+        `);
+
+        res.json(rows);
+    } catch (error) {
+        console.error("❌ Erreur récupération top associations :", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+});
+
+export default router;
+
+
 
 
 
