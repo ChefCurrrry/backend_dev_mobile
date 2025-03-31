@@ -125,10 +125,7 @@ router.delete("/deleteRecurrentDon", async (req, res) => {
     }
 });
 
-import express from "express";
-import pool from "../db.js";
 
-const router = express.Router();
 
 // 🔝 Route pour récupérer les 5 associations ayant reçu le plus de dons
 router.get("/top-associations", async (req, res) => {
