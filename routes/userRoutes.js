@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
 
         // Insérer l'utilisateur
         await pool.execute("INSERT INTO UTILISATEUR (Nom, Prenom, Email, Password, Role) VALUES (?, ?, ?, ?, ?)",
-            [nom, prenom, email, hashedPassword, "admin"]
+            [nom, prenom, email, hashedPassword, "user"]
         );
 
         res.status(201).json({ success: true, message: "Inscription réussie !" });
