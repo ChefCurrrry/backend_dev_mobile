@@ -36,7 +36,7 @@ router.post("/filtrage-associations", async (req, res) => {
         }
         console.log("🧪 SQL DEBUG:", query);
         console.log("🧪 Params:", params);
-        query += "ORDER BY NomAsso";
+        query += " ORDER BY NomAsso";
 
         const [rows] = await pool.query(query, params);
         res.json(rows);
